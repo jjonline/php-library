@@ -10,6 +10,7 @@
 # @use  $passHash = $hashPass->HashPassword('password String');
 # @use  对比密码(一般是先实例化PasswordHash)
 # @use  $isCheck  = $hashPass->CheckPassword('password String',$passHash);
+namespace libaray\PasswordHash;
 class PasswordHash {
 	private $itoa64;
 	private $iteration_count_log2;

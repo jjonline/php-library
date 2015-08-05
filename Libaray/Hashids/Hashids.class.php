@@ -6,7 +6,7 @@
 	https://github.com/ivanakimov/hashids.php
 	hashids may be freely distributed under the MIT license.	
 */
-namespace libaray\
+namespace libaray\Hashids;
 class Hashids {
 	
 	/* internal settings */

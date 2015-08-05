@@ -10,7 +10,7 @@ php-Libaray中所有库均有所修改，去除了兼容php5.3一下的判断代
 
 ``demo.php``是``Libaray``文件夹下各个类库的调用举例，具备自动加载机制，在php环境下，浏览器直接访问demo.php即可看到详细的使用介绍。
 
-``index.php``是``demo.php``的一个快速入口，可以看到该文件中仅一句代码：``include 'demo.php';``
+``index.php``是``demo.php``的一个快速入口，可以看到该文件中仅一句代码：``include __DIR__.'/demo.php';``
 ## Libaray文件夹下的类库命名规则
 既然仅支持php5.3及其以上的php环境，php-Libaray所有代码均添加了命名空间的支持
 ### 命名空间规则与目录规则对应
@@ -24,7 +24,7 @@ Libaray文件夹下每一个开源库一个文件夹，又对应于一个子命�
 ####类文件规则：####
 类文件名为``类名.class.php``
 		
-例如Hashids类，命名空间为:``\Libaray\Hashids\``;文件名为``Hashids.class.php``，文件路径为：``./Libaray/Hashids/Hashids.class.php``
+例如Hashids类，命名空间为:``Libaray\Hashids\``;文件名为``Hashids.class.php``，文件路径为：``./Libaray/Hashids/Hashids.class.php``
 	
 ## 版权申明
 由于php-Libaray收集至开源库，各个开源库遵循的开源协议各异，鄙人不保留任何php-Libaray中各个开源库代码的权利，代码所有权归各开源库原作者所有。
