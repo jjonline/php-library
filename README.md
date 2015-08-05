@@ -1,6 +1,9 @@
 # php-libaray
 ## 简介
 php-Libaray是由本人在日常code中常用的一些php开源库汇总而来，其中进行了一些修改。
+项目有两个文件夹
+**Libaray文件夹是一些常用的类**
+**Function文件夹是一些很实用的函数方法或为某些php低版本拓展在新版本中已实现的函数方法,例如:password_hash()**
 
 php-Libaray中所有库均有所修改，去除了兼容php5.3一下的判断代码，以提升调用和执行效率。
 

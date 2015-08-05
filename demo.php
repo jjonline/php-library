@@ -47,7 +47,7 @@ spl_autoload_register(function ($class) {
    #参数2为指定加密后的hash串最小长度
    #参数3为手动指定hash串中允许出现的字符
    $obj =  new Libaray\Hashids\Hashids('http://blog.jjonline.cn',16);
-   #加密数字1成为字符串 此处可以传递多个数字一起解密 或者一个value全部为数字的索引数组
+   #加密数字1成为字符串 此处可以传递多个数字一起加密 或者一个value全部为数字的索引数组
    var_dump($obj-&gt;encode(1));# 可能的字符串输出：1nZVNL5Eq5793Jyg
    #解密hash字符串为数字原型
    $restult = $obj-&gt;decode('1nZVNL5Eq5793Jyg');
