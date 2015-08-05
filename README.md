@@ -33,3 +33,6 @@ Libaray文件夹下每一个开源库一个文件夹，又对应于一个子命�
 由于php-Libaray收集至开源库，各个开源库遵循的开源协议各异，鄙人不保留任何php-Libaray中各个开源库代码的权利，代码所有权归各开源库原作者所有。
 
 换种说法：php-Libaray只是一个各个好用php开源库汇总集合，鄙人额外添加了一些注释或适配修改；添加了一些中文注释或中文调用方法的说明。
+
+## 在线Demo演示
+<a href="http://blog.jjonline.cn/project/php-libaray/">http://blog.jjonline.cn/project/php-libaray/</a>
