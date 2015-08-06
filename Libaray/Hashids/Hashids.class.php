@@ -177,11 +177,13 @@ class Hashids {
 		
 		$ret = "";
 		$numbers = $this->decode($hash);
-		
-		foreach ($numbers as $i => $number) {
-			$ret .= substr(dechex($number), 1);
-		}
-		
+		if(is_array($numbers)) {
+			foreach ($numbers as $i => $number) {
+				$ret .= substr(dechex($number), 1);
+			}
+		}else {
+			$ret      =	substr(dechex($numbers), 1);
+		}		
 		return $ret;
 		
 	}
@@ -280,7 +282,10 @@ class Hashids {
 			}
 			
 		}
-		
+		#当仅加密单个数字时不再返回数组
+		if($ret && count($ret)===1) {
+			return $ret[0];
+		}
 		return $ret;
 		
 	}

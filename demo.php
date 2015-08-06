@@ -194,5 +194,12 @@ if(is_dir($FunctionDir)) {
 </section>
 <script type='text/javascript'>
 prettyPrint();
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?3d44ee054b721d5191136ab4f49a2292";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
 </script>
 </html>
