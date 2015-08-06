@@ -12,13 +12,13 @@
 <script type='text/javascript' src='http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js'></script>
 <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" media='all' />
 <link href="http://apps.bdimg.com/libs/fontawesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" media='all' />
-<link href="http://blog.jjonline.cn/Upload/file/view.css" rel="stylesheet" type="text/css" media='all' />
+<link href="./view.css" rel="stylesheet" type="text/css" media='all' />
 <script src="http://blog.jjonline.cn/admin/editor/plugins/code/prettify.js" type="text/javascript"></script>
 </head>
 <body>
 <?php
 /**
- * php-libaray示例
+ * php-libaray示例 本示例中许多代码并未简写 主要是为了便于阅读和理解
  * @authors Jea杨 (JJonline@JJonline.Cn)
  * @date    2015-8-5 14:39:52
  * @version 1.0
@@ -28,16 +28,120 @@
  * @param null
  */ 
 spl_autoload_register(function ($class) {
-	$Dir  		=	str_replace('\\', '/', $class).'.class.php';
-	$FileName   =   realpath('./'.$Dir);
+	$Dir  		         =  str_replace('\\', '/', $class).'.class.php';
+	$FileName            =  __DIR__.'/'.$Dir;#realpath('./'.$Dir)亦可 但调用了函数肯定会适度加重负担;
 	include $FileName;
 });
+#Function文件夹中的文件自动加载
+$FunctionDir            =  __DIR__.'/Function/';
+if(is_dir($FunctionDir)) {
+   $iterator            =  new DirectoryIterator($FunctionDir);
+   while($iterator->valid()) {
+       if($iterator->isFile()){
+         $FileDir       =  $FunctionDir.$iterator->getFilename();
+         if($iterator->getExtension() == 'php') {
+            include $FileDir;
+         }
+       }
+       $iterator->next();
+   }
+}
+#文件结构迭代器
+function getDirInfo($dir) {
+   $iterator                     =   new DirectoryIterator($dir);
+   #先输出文件夹
+   while($iterator->valid()) {
+       if($iterator->isDir() && $iterator->getFilename()!='.' && $iterator->getFilename()!='..' && $iterator->getFilename()!='.git') {
+         echo '<li class="flist filedir"><i class="fa fa-folder-open"></i> '.$iterator->getFilename();
+         echo '<ul class="dirlist">';
+         getDirInfo($iterator->getPathname());
+         echo '</ul></li>';
+       }       
+       $iterator->next();
+   }
+   #再输出文件
+   $iterator->Rewind();
+   while($iterator->valid()) {
+      if($iterator->isFile()){
+         echo '<li class="flist file"><i class="fa fa-file-text"></i> '.$iterator->getFilename().'</li>';
+      }
+      $iterator->next();
+   }          
+}
 ?>
 </body>
 <header class="header container">
-	<h1 class="php-libaray">php-libaray示例</h1>
+	<h1 class="php-libaray">php-libaray示例 <em>相关代码详见：<a href="https://github.com/jjonline/php-libaray" target=_blank>https://github.com/jjonline/php-libaray</a></em></h1>
+   <h2 class="php-libaray-des">注：本代码示例需要PHP5.3.0及其以上的PHP环境；当前服务器PHP版本：<?php echo PHP_VERSION;?></h2>
 </header>
 <section class="container">
+   <article class="list fileSystem">
+      <h2>php-libaray文件结构</h2>
+      <ul class="php-libaray-dir">
+         <?php
+            getDirInfo(__DIR__);
+         ?>
+      </ul>
+   </article>
+   <article class="list init">
+      <h2>本Demo的自动加载机制</h2>
+<pre class="prettyprint lang-php linenums">&lt;?php
+/**
+ * 类自动加载 
+ * @param null
+ */ 
+spl_autoload_register(function ($class) {
+   $Dir        =  str_replace('\\', '/', $class).'.class.php';
+   $FileName   =  __DIR__.'/'.$Dir;#realpath('./'.$Dir)亦可 但调用了函数肯定会适度加重负担;
+   include $FileName;
+});
+#Function文件夹中的函数方法文件自动加载
+$FunctionDir =  __DIR__.'/Function/';
+if(is_dir($FunctionDir)) {
+   $iterator =  new DirectoryIterator($FunctionDir);
+   while($iterator->valid()) {
+       if($iterator->isFile()){
+         $FileDir =  $FunctionDir.$iterator->getFilename();
+         if(pathinfo($FileDir,PATHINFO_EXTENSION) == 'php') {
+            include $FileDir;
+         }
+       }
+       $iterator->next();
+   }
+}
+?&gt;</pre>
+   </article>
+   <article class="list init">
+      <h2>Function文件夹中的一些函数方法示例</h2>
+      <p>各函数使用方法和说明详见：Function文件夹中的README.md介绍。</p>
+
+      <p>运行结果：</p>
+      <p>1、<code>password_hash</code>不指定盐值加密密码<code>zheshiyigemima123</code>输出结果：<code><?php var_dump(password_hash('zheshiyigemima123',PASSWORD_BCRYPT));?></code>；没有通过第三个参数指定固定的盐值（系统会自己添加随机盐值），所以每刷新下结果都会变化的~~~</p>
+      <p>2、<code>password_verify</code>效验密码<code>zheshiyigemima123</code>和曾经保存过的一个hash串<code>$2y$10$WITh4hNt3PZtWIidd8btEOgQiRhUq15ofxDOZQqIDs3BJD/XnEDAu</code>输出结果：<code><?php var_dump(password_verify('zheshiyigemima123','$2y$10$WITh4hNt3PZtWIidd8btEOgQiRhUq15ofxDOZQqIDs3BJD/XnEDAu'));?></code></p>
+      <p>3、<code>password_get_info</code>获取hash串<code>$2y$10$WITh4hNt3PZtWIidd8btEOgQiRhUq15ofxDOZQqIDs3BJD/XnEDAu</code>的信息，输出结果：<code><?php var_dump(password_get_info('$2y$10$WITh4hNt3PZtWIidd8btEOgQiRhUq15ofxDOZQqIDs3BJD/XnEDAu'));?></code></p>
+      <p>4、<code>is_mail_valid</code>检测字符串<code>JJonline@JJonline.Cn</code>是否是一个合法的邮箱格式，输出：<code><?php var_dump(is_mail_valid('JJonline@JJonline.Cn'));?></code>；检测字符串<code>JJon-l#?ine@JJonline.Cn</code>是否是一个合法的邮箱格式，输出：<code><?php var_dump(is_mail_valid("JJon-l#?ine@JJonline.Cn"));?></code>
+         <br>Ps1：其实按 RFC822标准<code>JJon-l#?ine@JJonline.Cn</code>是一个合法的邮箱地址，只不过如此反人类的邮箱地址果断不拽它
+         <br>Ps2：<code>is_mail_valid</code>默认采用正则检测，也可以采用<code>filter_var($mail,FILTER_VALIDATE_EMAIL)</code>方式支持RFC822标准
+         <br>Ps3：<code>is_mail_valid</code>检测邮箱格式的标准为：用户名部分构成仅能为数字、字母、下划线、加好、减号(中划线)和点，且开头位置仅能为数字或字母；域名部分按域名规则，支持域名中有减号(或者称之为中划线)
+         <br>&nbsp;&nbsp;&nbsp;测试支持检测的邮箱格式类型：
+         <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>is_mail_valid</code>检测邮箱地址字符串<code>JJonline-Cn@JJonline.Cn</code>的结果<code><?php var_dump(is_mail_valid('JJonline-Cn@JJonline.Cn'));?></code>；
+         <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>is_mail_valid</code>检测邮箱地址字符串<code>JJonline.Cn@JJonline.Cn</code>的结果<code><?php var_dump(is_mail_valid('JJonline.Cn@JJonline.Cn'));?></code>；
+         <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>is_mail_valid</code>检测邮箱地址字符串<code>JJonline_Com.Cn@JJonline.Cn</code>的结果<code><?php var_dump(is_mail_valid('JJonline_Com.Cn@JJonline.Cn'));?></code>；
+         <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>is_mail_valid</code>检测邮箱地址字符串<code>JJonline.Com.Cn@JJonline.Cn</code>的结果<code><?php var_dump(is_mail_valid('JJonline.Com.Cn@JJonline.Cn'));?></code>；
+         <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>is_mail_valid</code>检测邮箱地址字符串<code>123456@JJonline.Cn</code>的结果<code><?php var_dump(is_mail_valid('123456@JJonline.Cn'));?></code>；
+         <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>is_mail_valid</code>检测邮箱地址字符串<code>JJonline.Cn@JJonline-Com.Cn</code>的结果<code><?php var_dump(is_mail_valid('JJonline.Cn@JJonline-Com.Cn'));?></code>；
+         <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;So，符合人类认知的几种邮箱格式检测均已支持~倘若需要支持检测邮箱中域名后缀为特定的，比如.com、.cn的还不支持
+         <br>Ps4：邮箱地址和网站网站域名一样是不区分大小写滴；那么问题来了Url区分大小写吗？答案是：看情况，因为*nux文件系统区分，而window文件系统特么又不区分~；只能说协议部分和域名部分是不区分大小写滴~
+      </p>
+      <p>5、<code>is_phone_valid</code>检测存在的天朝手机号<code>15872254727</code>，输出：<code><?php var_dump(is_phone_valid('17612345678'));?></code>；<code>is_phone_valid</code>检测不存在的天朝手机号<code>170123456</code>，输出：<code><?php var_dump(is_phone_valid('170123456'));?></code>；天朝手机号11位，开头为13[0-9]、14[0-9]、15[0-9]、18[0-9]、176、177、178新号段以及虚拟运营商的170[059]</p>
+      <p>6、<code>is_url_valid</code>检测Url<code>https://www.jjonline.cn:443/UserInfo/index.php?UserId=123456&type=Vip#Node=part1</code>，输出<code><?php var_dump(is_url_valid('https://www.jjonline.cn:443/UserInfo/index.php?UserId=123456&type=Vip#Node=part1'));?></code>；该方法仅检测http或https打头的Url，包括端口、get变量和锚点支持</p>
+      <p>7、<code>is_uid_valid</code>检测QQ号<code>77808859</code>，输出：<code><?php var_dump(is_uid_valid('77808859'));?></code>；该方法三个参数，第一个必选参数为需要检测的数字账户id，第二个可选参数指定合法的数字账户最短位数[默认4位]，第三个可选参数指定合法的数字账户最长位数[默认11位]。</p>
+      <p>8、<code>is_password_valid</code>检测密码字符串<code>mima123456</code>，输出<code><?php var_dump(is_password_valid('mima123456'));?></code>；该方法检测的密码字符串必须同时包含字母和数字；该方法三个参数，第一个必选参数为需要检测的密码字符串，第二个可选参数指定合法的密码字符串最短长度[默认8位]，第三个可选参数指定合法的密码字符串最长长度[默认16位]。</p>
+      <p>9、<code>is_citizen_id_valid</code>检测身份证号<code>420521198907031846</code>是否合乎规范，输出：<code><?php var_dump(is_citizen_id_valid('420521198907031846'));?></code>；该函数兼容15位老身份证号和18位新身份证号（若传入15位合法的身份证号将返回转换过的18位身份证号），符合规范返回有内容的关联数组（boolean判断为true），不符合规范返回false
+         <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ps:我都这么卖力的分享了，请给点面子不要拿此身份证号瞎搞</p>
+      <p>10、<code>time_ago</code>时间友好表示法，写此示例时的时间戳<code>1438852440</code>使用<code>time_ago</code>，输出：<code><?php var_dump(time_ago('1438852440'));?></code></p>
+      <p>不再详细介绍的函数：<code>format_bytes</code></p>
+   </article>
 	<article class="list Hashids">
 		<h2>1、Hashids类：加密数字型id成字符串hash并可反向解密hash成数字id</h2>
 		<p>应用场景：url中不便于直接显示成数字的id加密成唯一性的字符串（hash）；php脚本接收到该hash后又可以很方便的还原成数字id。也可以将多个数字型的参数一次性加密后作为一个GET变量附加在url中。</p>
