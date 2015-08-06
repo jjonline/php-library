@@ -102,7 +102,7 @@ if(is_dir($FunctionDir)) {
    while($iterator->valid()) {
        if($iterator->isFile()){
          $FileDir =  $FunctionDir.$iterator->getFilename();
-         if(pathinfo($FileDir,PATHINFO_EXTENSION) == 'php') {
+         if($iterator->getExtension() == 'php') {
             include $FileDir;
          }
        }
