@@ -143,6 +143,7 @@ namespace {
 	    }else{ // 变量默认值
 	        $data       		=   isset($default)?$default:null;
 	    }
+	    #最后Input方法体统一递归必须清理的过滤方法Input_filter 请按业务需求完善Input_filter方法
 	    is_array($data) && array_walk_recursive($data,'Input_filter');
 	    return $data;
 	}

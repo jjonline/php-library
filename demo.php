@@ -140,7 +140,38 @@ if(is_dir($FunctionDir)) {
       <p>9、<code>is_citizen_id_valid</code>检测身份证号<code>420521198907031846</code>是否合乎规范，输出：<code><?php var_dump(is_citizen_id_valid('420521198907031846'));?></code>；该函数兼容15位老身份证号和18位新身份证号（若传入15位合法的身份证号将返回转换过的18位身份证号），符合规范返回有内容的关联数组（boolean判断为true），不符合规范返回false
          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ps:我都这么卖力的分享了，请给点面子不要拿此身份证号瞎搞</p>
       <p>10、<code>time_ago</code>时间友好表示法，写此示例时的时间戳<code>1438852440</code>使用<code>time_ago</code>，输出：<code><?php var_dump(time_ago('1438852440'));?></code></p>
-      <p>10、<code>Input</code>统一方式获取并过滤超全局变量：$_GET、$_POST、php://input、$_REQUEST、$_SESSION、$_COOKIE、$_SERVER、$GLOBALS以及手动指定的变量；<code>Input('id',0);获取id参数，若为空或被过滤掉则返回0，自动判断是get或者post、Input('post.name','','htmlspecialchars');获取$_POST['name']并用htmlspecialchars函数进行过滤、Input('get.') 获取$_GET</code>；四个参数，第一个参数必选，注意第一个参数的书写方式、第二个参数可选，指定获取不到数据时返回的默认值，默认为空、第三个参数指定过滤数据的方法[若需多个方法过滤，多个方法名用英文逗号分隔，也可以直接指定一个正则表达式用正则去过滤（注意正则表达式的分割符必须是正斜线或者说左斜线/）]；第四个参数用于指定额外的数据源，指定第四个参数则相当于用第三个参数的过滤方法对第四个参数的数据进行过滤。Input默认Sql安全过滤需要针对特定业务场景，有需要进一步过滤，完善./Function/UsefullFunction.php中的<code>Input_filter函数</code></p>
+      <p>11、<code>Input</code>统一方式获取外部变量或用户提交的变量数据；函数原型：<code>Input('变量类型.变量名/修饰符',['默认值'],['过滤方法'],['额外数据源'])</code></p>
+      <p>“变量类型”可选为：</p>
+      <table>
+        <tr><th>变量类型</th><th>含义解释</th></tr>
+        <tr><td>get<td><td>获取GET变量；此时第四个参数无任何意义<td></tr>
+        <tr><td>post<td><td>获取POST变量；此时第四个参数无任何意义<td></tr>
+        <tr><td>param<td><td>自动判断请求类型获取GET、POST或者PUT变量；此时第四个参数无任何意义<td></tr>
+        <tr><td>request<td><td>获取REQUEST变量；此时第四个参数无任何意义<td></tr>
+        <tr><td>put<td><td>获取PUT变量；此时第四个参数无任何意义<td></tr>
+        <tr><td>session<td><td>获取$_SESSION变量；建议使用session函数；此时第四个参数无任何意义<td></tr>
+        <tr><td>cookie<td><td>获取$_COOKIE变量；建议使用cookie函数；此时第四个参数无任何意义<td></tr>
+        <tr><td>server<td><td>获取$_SERVER变量；此时第四个参数无任何意义<td></tr>
+        <tr><td>globals<td><td>获取$GLOBALS变量；此时第四个参数无任何意义<td></tr>
+        <tr><td>data<td><td>获取其他类型的变量，需要第四个参数['额外数据源']配合<td></tr>
+      </table>
+        <p>“修饰符”可选为：<code>s、d、b、a、f</code>；表示获取的数据被强制转换的类型，s=>string[字符串]、d=>double[整形]、b=>boolean[布尔值]、a=>array[数组]、f=>float[浮点数]；未设置该参数默认为s</p>
+        <p>“默认值”表示需要获取的指定变量不存在时返回这个默认值，注意<code>变量不存在的含义</code>；假设获取get变量action，也就是说<code>$_GET['action']</code>不存在才会返回默认值；这里存在这种情况：<code>($_GET['action']==='')为true</code>；这就需要对“变量是否存在”的深入理解，直接给答案不解释，这种情况Input返回空字符串并不会返回设置的默认值。</p>
+        <p>“过滤方法”参数，可以是数据处理或过滤的函数名字符串（自定义函数亦可，留意过滤函数方法体的合理性），多个函数使用逗号分隔函数名成字符串或用索引数组；也可以是一个正则表达式，使用正则来过滤数据(此时表达式分隔符必须是左划线[正划线]；使用正则倘若匹配失败则不会返回原值，而是会返回设置的默认值或者null)；同时也可以是int型常量或变量用于filter_var的第二个参数，并使用filter_var进行过滤。若传递的函数并不存在，此时将尝试将该参数理解成filter_var过滤方法的第二个参数（int型）并用filter_var函数对数据过滤。</p>
+        <p>“额外数据源”可以使用Input处理该函数第一个参数中的“变量类型”所不支持的数据类型（主要指那些超全局变量）；Input函数仅用于获取（并不进行数据设置），使用“额外数据源”参数则需要“变量类型”必须设置为data，继而“默认值”参数、“过滤方法”参数相互配合，用更少的代码完成更多的事情。该参数类型可以是数组也可以是字符串。</p>
+        <p>注意：Input默认Sql注入的安全过滤需要针对特定业务场景，有需要进一步过滤请完善./Function/UsefullFunction.php中的<code>Input_filter函数</code>；该函数默认过滤掉纯粹的特定Sql语句中的关键词，若数据中包含这些Sql关键词是不会被过滤的！</p>
+        <p>这是一个很强大的函数，用法举例：</p>
+        <ul class="sample_list">
+          <li>获取所有get变量<code>Input('get.')</code>或<code>Input('get.','','trim,strip_tags')</code>；第一种写法相当于获取$_GET，第二种写法则对$_GET进行了过滤，并设置了默认值（当且仅当$_GET不存在时才会返回默认值；这里某种意义上来看设置默认值并没有什么意义，因为超全局数组在不手动unset的情况下isset均为true）</li>
+          <li>获取get变量名为action的值并过滤：<code>Input('get.actoin','不存在get变量action','trim,strip_tags')</code>，输出结果：<code><?php var_dump(Input('get.action','不存在get变量action','trim,strip_tags'));?></code>，你也可以在本url上加上<code>?action= 这是action变量&lt;p&gt;值&lt;/p&gt; </code>(注意html标签p和首尾空格会被过滤掉)；这样返回的结果应该为：<code>这是action变量值</code>。（也就是传统方法中的<code>$_GET['actoin']</code>；只不过使用Input方法功能更强大，可以统一指定过滤方法也可以指定当action不存在时返回的默认值；节省很多业务逻辑代码）</li>
+          <li>获取session值，<code>Input('session.uid',false)</code>若存在<code>$_SESSION['uid']</code>则返回<code>$_SESSION['uid']</code>，否则返回<code>false</code>；需要留意的是$_SESSION可能是多维（二维及其以上）数组，Input仅能获取到第一维中的数据（即一个数组），<strong>暂时并不能</strong>通过<code>Input('session.uid.name',false)</code>来获取<code>$_SESSION['uid']['name']</code>；此功能以后<strong>可能</strong>会支持。</li>
+          <li>获取cookie值，<code>Input('cookie.uid',false)</code>若存在<code>$_COOKIE['uid']</code>则返回<code>$_COOKIE['uid']</code>，否则返回<code>false</code>；当然你也可以指定过滤方法。</li>
+          <li>自动判断请求类型并获取指定变量名的值，<code>Input('request.id')</code>或<code>Input('id')</code>；如果当前请求类型是GET，那么等效于<code>$_GET['id']</code>，如果当前请求类型是POST或者PUT，那么相当于获取<code>$_POST['id']</code>或者PUT提交的数据中的id项数据。</li>
+          <li><code>Input('server.REQUEST_METHOD')</code>获取<code>$_SERVER['REQUEST_METHOD']</code></li>
+          <li>获取外部数据，<code>Input('data.file1','','',$_FILES)</code></li>
+        </ul>
+      <p>12、<code>session</code>函数用于统一设置、获取session</p>
+      <p>13、<code>cookie</code>函数用于统一设置、获取cookie</p>
       <p>不再详细介绍的函数：<code>format_bytes</code></p>
    </article>
 	<article class="list Hashids">
