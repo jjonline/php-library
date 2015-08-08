@@ -140,6 +140,7 @@ if(is_dir($FunctionDir)) {
       <p>9、<code>is_citizen_id_valid</code>检测身份证号<code>420521198907031846</code>是否合乎规范，输出：<code><?php var_dump(is_citizen_id_valid('420521198907031846'));?></code>；该函数兼容15位老身份证号和18位新身份证号（若传入15位合法的身份证号将返回转换过的18位身份证号），符合规范返回有内容的关联数组（boolean判断为true），不符合规范返回false
          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ps:我都这么卖力的分享了，请给点面子不要拿此身份证号瞎搞</p>
       <p>10、<code>time_ago</code>时间友好表示法，写此示例时的时间戳<code>1438852440</code>使用<code>time_ago</code>，输出：<code><?php var_dump(time_ago('1438852440'));?></code></p>
+      <p>10、<code>Input</code>统一方式获取并过滤超全局变量：$_GET、$_POST、php://input、$_REQUEST、$_SESSION、$_COOKIE、$_SERVER、$GLOBALS以及手动指定的变量；<code>Input('id',0);获取id参数，若为空或被过滤掉则返回0，自动判断是get或者post、Input('post.name','','htmlspecialchars');获取$_POST['name']并用htmlspecialchars函数进行过滤、Input('get.') 获取$_GET</code>；四个参数，第一个参数必选，注意第一个参数的书写方式、第二个参数可选，指定获取不到数据时返回的默认值，默认为空、第三个参数指定过滤数据的方法[若需多个方法过滤，多个方法名用英文逗号分隔，也可以直接指定一个正则表达式用正则去过滤（注意正则表达式的分割符必须是正斜线或者说左斜线/）]；第四个参数用于指定额外的数据源，指定第四个参数则相当于用第三个参数的过滤方法对第四个参数的数据进行过滤。Input默认Sql安全过滤需要针对特定业务场景，有需要进一步过滤，完善./Function/UsefullFunction.php中的<code>Input_filter函数</code></p>
       <p>不再详细介绍的函数：<code>format_bytes</code></p>
    </article>
 	<article class="list Hashids">
