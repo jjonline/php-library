@@ -144,23 +144,23 @@ if(is_dir($FunctionDir)) {
       <p>“变量类型”可选为：</p>
       <table>
         <tr><th>变量类型</th><th>含义解释</th></tr>
-        <tr><td>get<td><td>获取GET变量；此时第四个参数无任何意义<td></tr>
-        <tr><td>post<td><td>获取POST变量；此时第四个参数无任何意义<td></tr>
-        <tr><td>param<td><td>自动判断请求类型获取GET、POST或者PUT变量；此时第四个参数无任何意义<td></tr>
-        <tr><td>request<td><td>获取REQUEST变量；此时第四个参数无任何意义<td></tr>
-        <tr><td>put<td><td>获取PUT变量；此时第四个参数无任何意义<td></tr>
-        <tr><td>session<td><td>获取$_SESSION变量；建议使用session函数；此时第四个参数无任何意义<td></tr>
-        <tr><td>cookie<td><td>获取$_COOKIE变量；建议使用cookie函数；此时第四个参数无任何意义<td></tr>
-        <tr><td>server<td><td>获取$_SERVER变量；此时第四个参数无任何意义<td></tr>
-        <tr><td>globals<td><td>获取$GLOBALS变量；此时第四个参数无任何意义<td></tr>
-        <tr><td>data<td><td>获取其他类型的变量，需要第四个参数['额外数据源']配合<td></tr>
+        <tr><td>get</td><td>获取GET变量；此时第四个参数无任何意义</td></tr>
+        <tr><td>post</td><td>获取POST变量；此时第四个参数无任何意义</td></tr>
+        <tr><td>param</td><td>自动判断请求类型获取GET、POST或者PUT变量；此时第四个参数无任何意义</td></tr>
+        <tr><td>request</td><td>获取REQUEST变量；此时第四个参数无任何意义</td></tr>
+        <tr><td>put</td><td>获取PUT变量；此时第四个参数无任何意义</td></tr>
+        <tr><td>session</td><td>获取$_SESSION变量；建议使用session函数；此时第四个参数无任何意义</td></tr>
+        <tr><td>cookie</td><td>获取$_COOKIE变量；建议使用cookie函数；此时第四个参数无任何意义</td></tr>
+        <tr><td>server</td><td>获取$_SERVER变量；此时第四个参数无任何意义</td></tr>
+        <tr><td>globals</td><td>获取$GLOBALS变量；此时第四个参数无任何意义</td></tr>
+        <tr><td>data</td><td>获取其他类型的变量，需要第四个参数['额外数据源']配合</td></tr>
       </table>
         <p>“修饰符”可选为：<code>s、d、b、a、f</code>；表示获取的数据被强制转换的类型，s=>string[字符串]、d=>double[整形]、b=>boolean[布尔值]、a=>array[数组]、f=>float[浮点数]；未设置该参数默认为s</p>
         <p>“默认值”表示需要获取的指定变量不存在时返回这个默认值，注意<code>变量不存在的含义</code>；假设获取get变量action，也就是说<code>$_GET['action']</code>不存在才会返回默认值；这里存在这种情况：<code>($_GET['action']==='')为true</code>；这就需要对“变量是否存在”的深入理解，直接给答案不解释，这种情况Input返回空字符串并不会返回设置的默认值。</p>
         <p>“过滤方法”参数，可以是数据处理或过滤的函数名字符串（自定义函数亦可，留意过滤函数方法体的合理性），多个函数使用逗号分隔函数名成字符串或用索引数组；也可以是一个正则表达式，使用正则来过滤数据(此时表达式分隔符必须是左划线[正划线]；使用正则倘若匹配失败则不会返回原值，而是会返回设置的默认值或者null)；同时也可以是int型常量或变量用于filter_var的第二个参数，并使用filter_var进行过滤。若传递的函数并不存在，此时将尝试将该参数理解成filter_var过滤方法的第二个参数（int型）并用filter_var函数对数据过滤。</p>
         <p>“额外数据源”可以使用Input处理该函数第一个参数中的“变量类型”所不支持的数据类型（主要指那些超全局变量）；Input函数仅用于获取（并不进行数据设置），使用“额外数据源”参数则需要“变量类型”必须设置为data，继而“默认值”参数、“过滤方法”参数相互配合，用更少的代码完成更多的事情。该参数类型可以是数组也可以是字符串。</p>
         <p>注意：Input默认Sql注入的安全过滤需要针对特定业务场景，有需要进一步过滤请完善./Function/UsefullFunction.php中的<code>Input_filter函数</code>；该函数默认过滤掉纯粹的特定Sql语句中的关键词，若数据中包含这些Sql关键词是不会被过滤的！</p>
-        <p>这是一个很强大的函数，用法举例：</p>
+        <p>Input是一个很强大的函数，用法举例：</p>
         <ul class="sample_list">
           <li>获取所有get变量<code>Input('get.')</code>或<code>Input('get.','','trim,strip_tags')</code>；第一种写法相当于获取$_GET，第二种写法则对$_GET进行了过滤，并设置了默认值（当且仅当$_GET不存在时才会返回默认值；这里某种意义上来看设置默认值并没有什么意义，因为超全局数组在不手动unset的情况下isset均为true）</li>
           <li>获取get变量名为action的值并过滤：<code>Input('get.actoin','不存在get变量action','trim,strip_tags')</code>，输出结果：<code><?php var_dump(Input('get.action','不存在get变量action','trim,strip_tags'));?></code>，你也可以在本url上加上<code>?action= 这是action变量&lt;p&gt;值&lt;/p&gt; </code>(注意html标签p和首尾空格会被过滤掉)；这样返回的结果应该为：<code>这是action变量值</code>。（也就是传统方法中的<code>$_GET['actoin']</code>；只不过使用Input方法功能更强大，可以统一指定过滤方法也可以指定当action不存在时返回的默认值；节省很多业务逻辑代码）</li>
@@ -171,7 +171,18 @@ if(is_dir($FunctionDir)) {
           <li>获取外部数据，<code>Input('data.file1','','',$_FILES)</code></li>
         </ul>
       <p>12、<code>session</code>函数用于统一设置、获取session</p>
-      <p>13、<code>cookie</code>函数用于统一设置、获取cookie</p>
+      <p>13、<code>cookie</code>函数用于统一设置、获取cookie；函数原型<code>cookie('COOKIE名',['COOKIE值'],['COOKIE配置项'])</code>；注意此函数有默认配置项，可以按需定制（修改函数体开始的$config数组即可），亦可通过'COOKIE配置项'参数覆盖默认配置。</p>
+      <p>'COOKIE名'：用于获取或设置指定名称的COOKIE，若'COOKIE名'传入<code>null</code>则表示删除<strong>指定前缀的所有cookie</strong>，此时若cookie名前缀为空将不做任何处理即不删除任何cookie；作为php标准，当并未按需指定默认配置时可以通过'COOKIE配置项'参数传入cookie前缀，写法为：<code>cookie(null,null,array('prefix'=>'J_'))</code>；函数体也做了变通处理还可以这么写<code>cookie(null,'J_')</code>，此时第二个参数将被理解成要删除的cookie前缀。</p>
+      <p>'COOKIE值'：用于设置cookie的值，或当'COOKIE名'为<code>null</code>并且'COOKIE值'不为<code>null</code>，此时'COOKIE值'表示传入cookie前缀，以用于快速删除该cookie前缀的所有cookie。</p>
+      <p>'COOKIE配置项'参数形式：</p>
+      <p>'COOKIE配置项'允许三种类型变量参数：int、string(int)以及array，可以理解为两种，多数情况下允许传入数组；仅进行cooke设置时'COOKIE配置项'参数方可允许为数值型参数（无论是int还是int型的字符串）；此时的数值表示为该设置的cookie设置一个过期时间，例如<code>cookie('J_cookie','required',3600)</code>，表示设置一个名为<code>J_cookie</code>，值为<code>required</code>，过期时间为<code>3600秒</code>的cookie。当'COOKIE配置项'为数组时，该关联数组的结构为：<code>array('prefix'=>string,'expire'=>int,'path'=>path string,domain'=>string,'httponly'=>boolean)</code>，其中索引不区分大小写，prefix为设置该cookie的前缀（设置前缀也可以通过默认值配置或者直接将'COOKIE名'设置为完整的cookie名称）、设置的cookie过期时间(默认浏览器关闭cookie失效)、以及cookie的作用目录(默认/)、作用域名(默认当前域名)、以及该cookie是否httponly；除prefix外，其余几个索引键与<code>setcookie(string $name [, string $value [, int $expire = 0 [, string $path [, string $domain [, bool $secure = false [, bool $httponly = false ]]]]]])</code>函数对应；仅需留意的是expire索引键的值通过cookie函数仅需指定多少秒后过期即可，而无需再加上<code>time()</code>，比如使用setcookie函数设置一个1个小时后过期的cookie，expire参数为<code>time()+3600</code>，而使用cookie函数，expire仅需要传入<code>3600</code>即可。</p>
+      <p>cookie是一个很强大的函数，用法举例：</p>
+      <ul class="sample_list">
+        <li>设置一个有前缀prefix的cookie，假设该prefix为<code>J_</code>，有多种方法：第一种<code>cookie('user','jjonline@jjonline.cn',array('prefix'=>'J_',expire=>3600,'domain'=>'.jjonline.cn','httponly'=>true))</code>第二种<code>cookie('J_user','jjonline@jjonline.cn',array(expire=>3600,'domain'=>'.jjonline.cn','httponly'=>true))</code>，或者直接在cookie函数体中将<code>$config</code>中的<code>prefix</code>项写死为<code>'J_'</code></li>
+        <li>读取上一步设置的cookie，也有多种写法：<code>cookie('J_user')</code>或者<code>cookie('user','',array('prefix'=>'J_'))</code>以及<code>cookie('J.user')</code>；倘若在cookie函数体中将$config中的prefix项写死为'J_'，还可以这样<code>cookie('user')</code></li>
+        <li>删除上一步设置的cookie，<code>cookie('J_user',null)</code>或者<code>cookie('J.user',null)</code></li>
+        <li>为cookie值设置一个数组，<code>cookie('J_info',array('id'=>1,'vip'=>1))</code>，cookie内部自动将数组使用json_encode编码成字符串并在字符串开头位置加上<code>Array:</code>，采用cookie函数读取该cookie<code>cookie('J_info')</code>将返回数组。</li>
+      </ul>
       <p>不再详细介绍的函数：<code>format_bytes</code></p>
    </article>
 	<article class="list Hashids">

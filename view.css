@@ -42,6 +42,13 @@ a:hover{color:#00a2ca;text-decoration:none;}
 .php-libaray-dir li .dirlist {padding-left:18px;}
 
 .sample_list  {margin:0 auto;padding:15px 25px;}
+.sample_list li {background:url(./li.gif) no-repeat 0 10px;padding-left:20px;margin-bottom:10px;line-height:25px;}
+table{font-size: 14px;}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{vertical-align: middle;padding: 10px;border-top-color: #eee;}
+table{border:solid 1px #ddd;width:100%;}
+table tr:hover {background-color:#f9f9f9;}
+table th{background-color:#f7f7f7;text-align:center;font-weight:bold;}
+table td,table th{border-bottom:solid 1px #ddd;border-right:solid 1px #ddd;padding:5px 10px}
 
 .list {padding:10px 20px;border-top:1px solid #dedede;}
 .list h2 {padding:10px 0;margin:0;font-size:25px;color:#FF9900}

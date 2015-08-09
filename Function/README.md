@@ -34,6 +34,11 @@
 
 ## UsefullFunction.php
 封装的一些常用的方法。
+**Input**统一的安全获取外部变量=>Input('变量类型.变量名/修饰符',['默认值'],['过滤方法'],['额外数据源'])
+
+**session**session设置和管理函数=>
+
+**cookie**cookie管理函数=>cookie(['COOKIE名'],['COOKIE值'],['COOKIE配置项'])
 
 **时间转换为友好显示法，例如“5分钟前”=>string time_ago(int $UnixTimeStamp)**
 

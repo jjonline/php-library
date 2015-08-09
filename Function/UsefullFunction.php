@@ -306,7 +306,7 @@ namespace {
 	    // 默认设置TODO
 	    $config = array(
 	        'prefix'    =>  '', // cookie 名称前缀
-	        'expire'    =>  null, // cookie 保存时间::相对于当前时间expire(秒)之后过期 固expire无需再加入当前时间的Unix时间戳
+	        'expire'    =>  0, // cookie 保存时间::相对于当前时间expire(秒)之后过期 固expire无需再加入当前时间的Unix时间戳
 	        'path'      =>  '/', // cookie 保存路径 默认全域
 	        'domain'    =>  null, // cookie 有效域名
 	        'secure'    =>  false, //  cookie 启用安全传输
