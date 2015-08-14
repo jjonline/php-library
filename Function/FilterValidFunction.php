@@ -29,7 +29,9 @@ namespace {
 	 * @return boolean
 	 */
 	function is_phone_valid($phone) {
-		return preg_match('/^13[\d]{9}$|14^[0-9]\d{8}|^15[0-9]\d{8}$|^18[0-9]\d{8}$|^170[059]\d{7}|^17[678]\d{8}$/',$phone)===1;
+		#Fixed 171 170x
+		#详见：http://digi.163.com/15/0812/16/B0R42LSH00162OUT.html
+		return preg_match('/^13[\d]{9}$|14^[0-9]\d{8}|^15[0-9]\d{8}$|^18[0-9]\d{8}$|^170[015789]\d{7}|^171[89]\d{7}|^17[678]\d{8}$/',$phone)===1;
 	}
 
 	/**
