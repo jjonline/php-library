@@ -19,8 +19,8 @@ namespace {
 		 详见：http://www.cs.tut.fi/~jkorpela/rfc/822addr.html
 		*/
 		#return !!filter_var($mail,FILTER_VALIDATE_EMAIL);
-		#正则方式
-		return preg_match('/^\w+(?:[-+.]\w+)*@\w+(?:[-.]\w+)*\.\w+(?:[-.]\w+)*$/',$mail)===1;
+		#正则方式 '/^\w+(?:[-+.]\w+)*@\w+(?:[-.]\w+)*\.\w+(?:[-.]\w+)*$/' 邮箱域名顶级后缀至少两个字符
+		return preg_match('/^\w+(?:[-+.]\w+)*@\w+(?:[-.]\w+)*\.\w{2,}$/',$mail)===1;
 	}
 
 	/**
