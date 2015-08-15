@@ -7,8 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-siteapp">
 <meta http-equiv="Cache-Control" content="no-transform">
-<title>php-libaray示例</title>
+<title>php-library示例</title>
 <meta name="Author" content="Jea杨(http://blog.jjonline.cn)">
+<meta name="keywords" content="php-library,晶晶博客" />
+<meta name="description" content="晶晶在线站长晶晶的博客提供并分享的PHP常用库：php-library" />
 <script type='text/javascript' src='http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js'></script>
 <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" media='all' />
 <link href="http://apps.bdimg.com/libs/fontawesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" media='all' />
@@ -18,7 +20,7 @@
 <body>
 <?php
 /**
- * php-libaray示例 本示例中许多代码并未简写 主要是为了便于阅读和理解
+ * php-library示例 本示例中许多代码并未简写 主要是为了便于阅读和理解
  * @authors Jea杨 (JJonline@JJonline.Cn)
  * @date    2015-8-5 14:39:52
  * @version 1.0
@@ -71,13 +73,13 @@ function getDirInfo($dir) {
 ?>
 </body>
 <header class="header container">
-	<h1 class="php-libaray">php-libaray示例 <em>相关代码详见：<a href="https://github.com/jjonline/php-libaray" target=_blank>https://github.com/jjonline/php-libaray</a></em></h1>
-   <h2 class="php-libaray-des">注：本代码示例需要PHP5.3.0及其以上的PHP环境；当前服务器PHP版本：<?php echo PHP_VERSION;?></h2>
+	<h1 class="php-library">php-library示例 <em>相关代码详见：<a href="https://github.com/jjonline/php-library" target=_blank>https://github.com/jjonline/php-library</a></em></h1>
+   <h2 class="php-library-des">注：本代码示例需要PHP5.3.0及其以上的PHP环境；当前服务器PHP版本：<?php echo PHP_VERSION;?></h2>
 </header>
 <section class="container">
    <article class="list fileSystem">
-      <h2>php-libaray文件结构</h2>
-      <ul class="php-libaray-dir">
+      <h2>php-library文件结构</h2>
+      <ul class="php-library-dir">
          <?php
             getDirInfo(__DIR__);
          ?>
@@ -193,7 +195,7 @@ if(is_dir($FunctionDir)) {
    #参数1为加密盐值
    #参数2为指定加密后的hash串最小长度
    #参数3为手动指定hash串中允许出现的字符
-   $obj =  new Libaray\Hashids\Hashids('http://blog.jjonline.cn',16);
+   $obj =  new library\Hashids\Hashids('http://blog.jjonline.cn',16);
    #加密数字1成为字符串 此处可以传递多个数字一起加密 或者一个value全部为数字的索引数组
    var_dump($obj-&gt;encode(1));# 可能的字符串输出：1nZVNL5Eq5793Jyg
    #解密hash字符串为数字原型
@@ -206,17 +208,17 @@ if(is_dir($FunctionDir)) {
    #此类还提供加密16进制数的方法 不再介绍 原理一致  只不过方法名变化：encode_hex和decode_hex
 ?&gt;</pre>
 	<p>运行结果：</p>
-	<p>数字<code>1</code>加密后的hash字符串为：<code><?php var_dump((new Libaray\Hashids\Hashids('http://blog.jjonline.cn',16))->encode(1));?></code></p>
-	<p>hash串<code>1nZVNL5Eq5793Jyg</code>解密后的数字原型为：<code><?php var_dump((new Libaray\Hashids\Hashids('http://blog.jjonline.cn',16))->decode('1nZVNL5Eq5793Jyg'));?></code></p>
-	<p>数组<code>[1,2,3]</code>加密后的hash字符串为：<code><?php var_dump((new Libaray\Hashids\Hashids('http://blog.jjonline.cn',16))->encode([1,2,3]));?></code></p>
-	<p>数组型hash串<code>K8aO5d4Uos45b2dr</code>解密后的数字原型数组为：<code><?php var_dump((new Libaray\Hashids\Hashids('http://blog.jjonline.cn',16))->decode('K8aO5d4Uos45b2dr'));?></code></p>
+	<p>数字<code>1</code>加密后的hash字符串为：<code><?php var_dump((new library\Hashids\Hashids('http://blog.jjonline.cn',16))->encode(1));?></code></p>
+	<p>hash串<code>1nZVNL5Eq5793Jyg</code>解密后的数字原型为：<code><?php var_dump((new library\Hashids\Hashids('http://blog.jjonline.cn',16))->decode('1nZVNL5Eq5793Jyg'));?></code></p>
+	<p>数组<code>[1,2,3]</code>加密后的hash字符串为：<code><?php var_dump((new library\Hashids\Hashids('http://blog.jjonline.cn',16))->encode([1,2,3]));?></code></p>
+	<p>数组型hash串<code>K8aO5d4Uos45b2dr</code>解密后的数字原型数组为：<code><?php var_dump((new library\Hashids\Hashids('http://blog.jjonline.cn',16))->decode('K8aO5d4Uos45b2dr'));?></code></p>
 	</article>
 	<article class="list PasswordHash">
 		<h2>2、PasswordHash类：不可逆的密码加密和密码对比，开源原始名：phpass</h2>
 		<p>应用场景：加密密码字符串成为不可逆的hash字符串，此加密方式一个明文密码对应无数个hash串；通过保存的hash串和密码明文进行对比，又可以效验明文密码的正确性。[该加密类被WordPress、emlog等许多开源程序使用]</p>
 <pre class="prettyprint lang-php linenums">&lt;?php
    #两个参数，第一个参数指定加密深度 int 取值范围5-30 第二个参数指定该加密是否可以移植指定false，更换运行环境后解密将出现问题
-   $PasswordHash  =  new Libaray\PasswordHash\PasswordHash(8,true);
+   $PasswordHash  =  new library\PasswordHash\PasswordHash(8,true);
    #加密密码 zheshiyigemima123 可以发现每一次刷新结果都不一样 保留一个结果：$P$BPae94jMsALnSwBm5fnKiMBpLuxZfN1 用于下方密码效验试验
    var_dump($PasswordHash-&gt;HashPassword('zheshiyigemima123'));
    #对比数据库保存的密码hash串：$P$BPae94jMsALnSwBm5fnKiMBpLuxZfN1是否为明文密码：zheshiyigemima123的一个hash；换种方式描述：核对用户密码是否正确
@@ -228,12 +230,12 @@ if(is_dir($FunctionDir)) {
 ?&gt;	
 </pre>
 	<p>运行结果：</p>
-	<p>密码<code>zheshiyigemima123</code>加密后的hash字符串为：<code><?php var_dump((new Libaray\PasswordHash\PasswordHash(8,true))->HashPassword('zheshiyigemima123'));?></code>；每刷新下结果都会变化的~~~</p>
-	<p>用曾经保存过的一个hash串<code>$P$BPae94jMsALnSwBm5fnKiMBpLuxZfN1</code>来核对密码<code>zheshiyigemima123</code>(正确的密码)是否正确：<code><?php var_dump((new Libaray\PasswordHash\PasswordHash(8,true))->CheckPassword('zheshiyigemima123','$P$BPae94jMsALnSwBm5fnKiMBpLuxZfN1'));?></code></p>
-	<p>用曾经保存过的一个hash串<code>$P$BPae94jMsALnSwBm5fnKiMBpLuxZfN1</code>来核对密码<code>zheshiyigemima321</code>(错误的密码)是否正确：<code><?php var_dump((new Libaray\PasswordHash\PasswordHash(8,true))->CheckPassword('zheshiyigemima321','$P$BPae94jMsALnSwBm5fnKiMBpLuxZfN1'));?></code></p>
+	<p>密码<code>zheshiyigemima123</code>加密后的hash字符串为：<code><?php var_dump((new library\PasswordHash\PasswordHash(8,true))->HashPassword('zheshiyigemima123'));?></code>；每刷新下结果都会变化的~~~</p>
+	<p>用曾经保存过的一个hash串<code>$P$BPae94jMsALnSwBm5fnKiMBpLuxZfN1</code>来核对密码<code>zheshiyigemima123</code>(正确的密码)是否正确：<code><?php var_dump((new library\PasswordHash\PasswordHash(8,true))->CheckPassword('zheshiyigemima123','$P$BPae94jMsALnSwBm5fnKiMBpLuxZfN1'));?></code></p>
+	<p>用曾经保存过的一个hash串<code>$P$BPae94jMsALnSwBm5fnKiMBpLuxZfN1</code>来核对密码<code>zheshiyigemima321</code>(错误的密码)是否正确：<code><?php var_dump((new library\PasswordHash\PasswordHash(8,true))->CheckPassword('zheshiyigemima321','$P$BPae94jMsALnSwBm5fnKiMBpLuxZfN1'));?></code></p>
 	</article>
 	<!--article class="list"></article-->
-	<p class="more">更多...待添加，或您提<a href="https://github.com/jjonline/php-libaray/pulls" target=_blank>pull request</a></p>
+	<p class="more">更多...待添加，或您提<a href="https://github.com/jjonline/php-library/pulls" target=_blank>pull request</a></p>
 </section>
 <script type='text/javascript'>
 prettyPrint();

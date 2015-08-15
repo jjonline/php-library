@@ -29,17 +29,17 @@ a:hover{color:#00a2ca;text-decoration:none;}
   }
 }
 /**main css**/
-.php-libaray {margin:0;padding:20px;color:#FF6666;font-size:35px;}
-.php-libaray em {font-size:18px;color:#999;}
-.php-libaray em a {color:#999;text-decoration:underline;}
-.php-libaray-des {margin:0 20px 20px 20px;font-size:20px;color:#666}
+.php-library {margin:0;padding:20px;color:#FF6666;font-size:35px;}
+.php-library em {font-size:18px;color:#999;}
+.php-library em a {color:#999;text-decoration:underline;}
+.php-library-des {margin:0 20px 20px 20px;font-size:20px;color:#666}
 /**dir**/
 .container {background:#fafafa;}
-.php-libaray-dir {padding-left:25px;}
-.php-libaray-dir li {line-height:25px;padding:3px 0;}
+.php-library-dir {padding-left:25px;}
+.php-library-dir li {line-height:25px;padding:3px 0;}
 .fa-folder-open {color:#dfbf21;}
 .fa-file-text {color:#99CCFF;}
-.php-libaray-dir li .dirlist {padding-left:18px;}
+.php-library-dir li .dirlist {padding-left:18px;}
 
 .sample_list  {margin:0 auto;padding:15px 25px;}
 .sample_list li {background:url(./li.gif) no-repeat 0 10px;padding-left:20px;margin-bottom:10px;line-height:25px;}
