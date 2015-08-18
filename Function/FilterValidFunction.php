@@ -73,6 +73,46 @@ namespace {
 	    return preg_match('/\d{1,16}/',$password)===1 && preg_match('/[a-zA-Z]{1,16}/',$password)===1;
 	}
 
+    /**
+     * 检查字符串是否是UTF8编码下的中文
+     * @param string $string 字符串
+     * @return Boolean
+     */
+	function is_chinese($str) {
+		return preg_match("/[\x{4e00}-\x{9fa5}]+/u", $str)===1;
+	}
+
+    /**
+     * 检查字符串是否是UTF8编码
+     * @param string $string 字符串
+     * @return Boolean
+     */
+    function is_utf8($str) {
+        $c=0; $b=0;
+        $bits=0;
+        $len=strlen($str);
+        for($i=0; $i<$len; $i++) {
+            $c=ord($str[$i]);
+            if($c > 128){
+                if(($c >= 254)) return false;
+                elseif($c >= 252) $bits=6;
+                elseif($c >= 248) $bits=5;
+                elseif($c >= 240) $bits=4;
+                elseif($c >= 224) $bits=3;
+                elseif($c >= 192) $bits=2;
+                else return false;
+                if(($i+$bits) > $len) return false;
+                while($bits > 1){
+                    $i++;
+                    $b=ord($str[$i]);
+                    if($b < 128 || $b > 191) return false;
+                    $bits--;
+                }
+            }
+        }
+        return true;
+    }
+
 	/**
 	 * 检测传入的变量是否为一个合法的天朝身份证号（15位、18位兼容）
 	 * @param  mixed $citizen_id
