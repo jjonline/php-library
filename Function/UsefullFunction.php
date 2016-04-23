@@ -788,4 +788,24 @@ namespace {
 		}
 		return round($size, 2) . $delimiter . $units[$i];
 	}
+
+	/**
+	 * 清理html内容中的js代码和各种标签内包裹的onXX事件
+	 * {
+	 *     1、清理所有js代码
+	 *     2、清理所有标签内属性性质的js事件
+	 * }
+	 * @param  string $content 待清理的html文本
+	 * @return string 清理妥善的html文本
+	 */
+	function clear_html($content) {
+	    ##去除所有JavaScript代码
+	    $content = preg_replace('/<script(.*?)<\/?script>/is', "", $content);
+
+	    ##去除所有a标签
+	    // $content = preg_replace('/<\/?a[^>]>/', '', $content); ##a标签相对危害小一些，依据实际情况取消注释
+
+	    ##去除标签内的各种属性
+	    return preg_replace('/<(\w+)\s+[^>]+>/', '<${1}>', $content);
+	}
 }
