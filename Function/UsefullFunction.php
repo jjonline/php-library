@@ -807,6 +807,6 @@ namespace {
 	    // $content = preg_replace('/<\/?a[^>]>/', '', $content); ##a标签相对危害小一些，依据实际情况取消注释
 
 	    ##去除标签内的各种属性  排除对img、a标签的误杀
-    	return preg_replace('/<(?!a\s+|img\s+)(\w+)\s+[^>]+>/', '<${1}>', $content);
+        return preg_replace('/<(?!a\s+|img\s+)(\w+)\s+[^>]+>/', '<${1}>', $content);
 	}
 }
