@@ -791,6 +791,7 @@ namespace {
 
 	/**
 	 * 清理html内容中的js代码和各种标签内包裹的onXX事件
+	 * 适配emlog的功能实现：直接清理掉所有标签内属性即可
 	 * {
 	 *     1、清理所有js代码
 	 *     2、清理所有标签内属性性质的js事件
@@ -805,7 +806,7 @@ namespace {
 	    ##去除所有a标签
 	    // $content = preg_replace('/<\/?a[^>]>/', '', $content); ##a标签相对危害小一些，依据实际情况取消注释
 
-	    ##去除标签内的各种属性
-	    return preg_replace('/<(\w+)\s+[^>]+>/', '<${1}>', $content);
+	    ##去除标签内的各种属性  排除对img、a标签的误杀
+    	return preg_replace('/<(?!a\s+|img\s+)(\w+)\s+[^>]+>/', '<${1}>', $content);
 	}
 }
