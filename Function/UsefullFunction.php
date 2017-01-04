@@ -8,6 +8,19 @@
 namespace {
 
     /**
+     * 判断是否微信浏览器内打开
+     * @return boolean
+     */
+    function is_weixin_browser()
+    {
+        if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * nl2br的类似函数，将(多个)换行替换成p标签
      * @param  string $str
      * @return string
